@@ -1,9 +1,10 @@
 import { t } from "ttag";
 import _ from "underscore";
 
+import Table from "metabase-lib/lib/metadata/Table";
+
 import { singularize } from "metabase/lib/formatting";
 import { isPK } from "metabase/lib/schema_metadata";
-import { Table } from "metabase-types/types/Table";
 import Question from "metabase-lib/lib/Question";
 import { DatasetData } from "metabase-types/types/Dataset";
 
