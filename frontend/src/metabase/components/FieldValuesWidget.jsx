@@ -388,6 +388,16 @@ class FieldValuesWidgetInner extends Component {
       style,
       parameter,
       prefix,
+      valueRenderer = value =>
+        this.renderValue(value, { autoLoad: true, compact: false }),
+      optionRenderer = option =>
+        this.renderValue(option[0], { autoLoad: false }),
+      layoutRenderer = props => (
+        <div>
+          {props.valuesList}
+          {this.renderOptions(props)}
+        </div>
+      ),
     } = this.props;
     const { loadingState } = this.state;
 
@@ -448,18 +458,9 @@ class FieldValuesWidgetInner extends Component {
             // end forwarded props
             options={options}
             valueKey={0}
-            valueRenderer={value =>
-              this.renderValue(value, { autoLoad: true, compact: false })
-            }
-            optionRenderer={option =>
-              this.renderValue(option[0], { autoLoad: false })
-            }
-            layoutRenderer={props => (
-              <div>
-                {props.valuesList}
-                {this.renderOptions(props)}
-              </div>
-            )}
+            valueRenderer={valueRenderer}
+            optionRenderer={optionRenderer}
+            layoutRenderer={layoutRenderer}
             filterOption={(option, filterString) => {
               const lowerCaseFilterString = filterString.toLowerCase();
               return option.some(
