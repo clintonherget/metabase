@@ -388,6 +388,7 @@ class FieldValuesWidgetInner extends Component {
       style,
       parameter,
       prefix,
+      forceTokenField = false,
       valueRenderer = value =>
         this.renderValue(value, { autoLoad: true, compact: false }),
       optionRenderer = option =>
@@ -428,7 +429,7 @@ class FieldValuesWidgetInner extends Component {
         }}
       >
         {isFetchingList && <LoadingState />}
-        {hasListData && (
+        {hasListData && !forceTokenField && (
           <ListField
             isDashboardFilter={parameter}
             placeholder={this.getTokenFieldPlaceholder()}
@@ -440,7 +441,7 @@ class FieldValuesWidgetInner extends Component {
             }
           />
         )}
-        {!hasListData && !isFetchingList && (
+        {(!hasListData || forceTokenField) && !isFetchingList && (
           <TokenField
             prefix={prefix}
             value={value.filter(v => v != null)}
