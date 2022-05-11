@@ -27,7 +27,7 @@
             [metabase.util :as u]
             [metabase.util.date-2 :as u.date]
             [metabase.util.honeysql-extensions :as hx]
-            [metabase.util.i18n :refer [trs]]
+            [metabase.util.i18n :refer [deferred-tru trs]]
             [potemkin :as p]
             [pretty.core :refer [PrettyPrintable]])
   (:import [java.sql ResultSet ResultSetMetaData Time Types]
@@ -163,7 +163,13 @@
     driver.common/advanced-options-start
     (assoc driver.common/additional-options
            :placeholder "prepareThreshold=0")
-    driver.common/default-advanced-options]
+    driver.common/default-advanced-options
+    {:name         "database-enable-actions"
+     :type         :boolean
+     :default      false
+     :display-name (deferred-tru "Enable experimental actions")
+     :description  (deferred-tru "Whether to enable using the new experimental Actions features for this database. (Actions must also be enabled globally.)")
+     :visible-if   {"settings.experimental-enable-actions" true "advanced-options" true}}]
    (map u/one-or-many)
    (apply concat)))
 

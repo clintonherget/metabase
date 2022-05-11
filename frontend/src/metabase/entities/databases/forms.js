@@ -121,8 +121,11 @@ function shouldShowEngineProvidedField(field, details) {
   if (detailAndValueRequiredToShowField) {
     const pred = currentValue => {
       const [detail, expectedDetailValue] = currentValue;
+      const [, settingsName] = detail.match(/^settings\.(.+)$/) || [];
 
-      if (Array.isArray(expectedDetailValue)) {
+      if (settingsName) {
+        return MetabaseSettings.get(settingsName) === expectedDetailValue;
+      } else if (Array.isArray(expectedDetailValue)) {
         // if the expectedDetailValue is itself an array, then consider the condition satisfied if any of those values
         // match the current detail value
         return expectedDetailValue.includes(details[detail]);
